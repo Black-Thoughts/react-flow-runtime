@@ -20,9 +20,9 @@ export function IFrameNode({ id, data }) {
         })
 
         updateNode(id, {
-            width: '10vw',
-            height: '3vh',
-            style: {width: '10vw', height: '3vh'},
+            width: '12vw',
+            height: '4.5vh',
+            style: {width: '12vw', height: '4.5vh'},
         });
     }, []);
 
@@ -55,7 +55,7 @@ export function IFrameNode({ id, data }) {
     }, [id, isExpanded, updateNodeInternals])
 
   return (
-    <div className="devNode">
+    <div className={`${isExpanded ? 'expanded' : 'collapsed'}`}>
         <NodeResizer
             isVisible={isExpanded}
             minWidth={200}

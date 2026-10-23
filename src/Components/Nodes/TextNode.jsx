@@ -8,7 +8,7 @@ export function TextNode({ data }) {
   return (
     <div className="text-node">
         <Handle type="target" position={Position.Top} />
-        <div className='nodeHeader' style={{ fontWeight: "bold", marginBottom: 6 }} onClick={() => setIsExpanded(!isExpanded)}>
+        <div className='nodeHeader' onClick={() => setIsExpanded(!isExpanded)}>
             {data.label || 'Text Node'}
         </div>
         {isExpanded && 

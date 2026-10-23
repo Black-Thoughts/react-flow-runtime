@@ -8,7 +8,7 @@ export function VideoNode({ data }) {
   return (
     <div className="video-node">
         <Handle type="target" position={Position.Top} />
-        <div className='nodeHeader' style={{ fontWeight: "bold", marginBottom: 6 }} onClick={() => setIsExpanded(!isExpanded)}>
+        <div className='nodeHeader' onClick={() => setIsExpanded(!isExpanded)}>
             {data.label || 'Video Node'}
         </div>
         {isExpanded && 

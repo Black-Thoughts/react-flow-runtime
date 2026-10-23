@@ -117,8 +117,8 @@ function FlowEditor() {
       onNodeDoubleClick={onNodeDoubleClick}
       >
       <Controls/>
-    </ReactFlow>
-    {editNode && <Editor nodeId={editNode.id} setVisible={() => setEditNode(null)}/>}
+      </ReactFlow>
+      {editNode && <Editor nodeId={editNode.id} setVisible={() => setEditNode(null)}/>}
     </div>
   );
 }
