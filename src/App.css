@@ -1,10 +1,15 @@
 body {
   overflow: hidden;
+  background-color: #b56bce;
+}
+
+button {
+  background-color: #b56bce;
 }
 
 #container {
   display: flex;
-  background-color: royalblue;
+  background-color: rgb(200, 200, 205);
   width: 100vw;
   height: 100vh;
   overflow: hidden;
@@ -20,9 +25,10 @@ body {
 
 .nodeHeader {
   width: 100%;
-  /* background-color: #15afad; */
+  background: linear-gradient(#dc39ce7d, #2bd1ce00);
   font-weight: bold;
-  margin-bottom: 10px; 
+  margin-bottom: 10px;
+  text-align: center;
 }
 
 .expanded {
@@ -53,16 +59,16 @@ body {
 }
 
 .react-flow__node-textNode {
-  background-color: #c2c0e8;
+  background-color: #1523c9;
 }
 .react-flow__node-imageNode {
-  background-color: #15afad;
+  background-color: #c60995;
 }
 .react-flow__node-videoNode {
-  background-color: #e32756;
+  background-color: #E83723;
 }
 .react-flow__node-audioNode {
-  background-color: #dae327;
+  background-color: #eadc36;
 }
 .react-flow__node-iFrameNode {
   background-color: #8a1caf;
@@ -70,7 +76,7 @@ body {
 
 /* When selected */
 .react-flow__node.selected {
-  border-color: #00bfff;
+  border-color: #39f66a;
 }
 
 /* When hovered */
@@ -79,7 +85,74 @@ body {
 }
 
 .editor {
-  background-color: rosybrown;
+  /* text-align: center; */
+  /* background-color: #57db7a; */
+  background: linear-gradient(#1523c9, #1523c9aa);
+
   width: 40vw;
   height: 100vh;
+  border-left: #1523c9;
+  z-index: 2;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: space-around;
+  font-size: large;
+
+  h1 {
+    text-align: center;
+  }
+
+  input {
+    width: 70%;
+    height: 7vh;
+    min-height: 20px;
+    border-radius: 5px;
+      font-size: xx-large;
+      margin: 1rem;
+  }
+
+  .text-area {
+    min-height: 30%;
+    font-size: x-large;
+  }
+
+  button {
+    color: #ddd;
+    background-color: #c6099500;
+    border: solid .2em #c60995;
+    padding-bottom: 1rem;
+    width: 70%;
+    height: 10vh;
+    border-radius: 6px;
+    font-size: xx-large;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  label {
+    font-size: x-large;
+    text-align: left;
+  }
+}
+
+.popup {
+  position: absolute;
+  background-color: #eadc36;
+  min-width: 100px;
+  width: 10vw;
+  flex-direction: column;
+  border: solid 2px black;
+  border-radius: 10px;
+  transform: translate(-50%, -50%);
+
+  .item {
+    border: solid 2px black;
+    text-align: center;
+  }
+
+  .item:hover {
+    background-color: #00ffb7;
+  }
 }

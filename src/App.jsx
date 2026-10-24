@@ -19,34 +19,71 @@ const nodeTypes = {
 };
 
 const initialNodes = [];
-
-const initialEdges = [{id: "e1-2", source: "1", target: "2"}];
+const initialEdges = [];
 
 function FlowEditor() {
+  const [initNodes, setInitNodes] = useNodesState(initialNodes);
+  const [initEdges, setInitEdges] = useEdgesState(initialEdges);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const [isEditing] = useState(true);
-  const [editNode, setEditNode] = useState(false);
+  const [isEditing, setIsEditing] = useState(true);
+  const [editNode, setEditNode] = useState(null);
   const lastClickTime = useRef(0);
-  const [loaded, setLoaded] = useState(false);
   const {screenToFlowPosition} = useReactFlow();
+  const [dblclkPos, setDblClkPos] = useState(null);
+  const popupRef = useRef(null);
 
 
   window.addEventListener('message', (message) => {
-    if (loaded) return;
-    if (!message.data.nodes) return; 
+    // if (loaded) return;
+    if (!message.data.nodes && !message.data.isEditing) return;
 
     console.log(message.data);
     // alert(message.data);
-    setNodes(message.data.nodes);
-    setEdges(message.data.edges);
-    setLoaded(true);
+
+    if (message.data.isEditing) {
+      setIsEditing(message.data.isEditing);
+    }
+    if (message.data.nodes) {
+      setNodes(message.data.nodes);
+      setEdges(message.data.edges);
+
+      setInitNodes(message.data.nodes);
+      setInitEdges(message.data.edges);
+    }
+ 
+    // setLoaded(true);
   })
+
+  const sendData = useCallback(()=> {
+    const data = {nodes: nodes, edges: edges}
+    window.parent.postMessage(data, '*');
+  }, [nodes, edges])
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
     [setEdges]
   );
+
+  const resetTemplate = () => {
+    setNodes(initNodes);
+    setEdges(initEdges);
+  }
+
+  const createNode = (nodeType) => {
+    const newNode = {
+      id: nanoid(),
+      type: nodeType,
+      position: dblclkPos,
+      data: {label: `New Node`, url: ""},
+    }
+
+    setNodes((prevNodes) => [...prevNodes, newNode]);
+    setEditNode(newNode);
+    console.log(newNode.id);
+
+    popupRef.current.style.display = 'none';
+  }
 
   const onPaneDoubleClick = useCallback((e) => {
     if (!isEditing) return;
@@ -56,29 +93,33 @@ function FlowEditor() {
       x: e.clientX,
       y: e.clientY,
     })
+    setDblClkPos(position);
 
-    const newNode = {
-      id: nanoid(),
-      type: 'textNode',
-      position,
-      data: {label: 'New Node', text: "Testing testing 123"},
-    }
+    const popup = popupRef.current;
+    popup.style.left = `${e.clientX}px`;
+    popup.style.top = `${e.clientY}px`;
+    popup.style.display = 'block';
 
-    setNodes((prevNodes) => [...prevNodes, newNode])
-  }, [screenToFlowPosition, setNodes])
+  }, [screenToFlowPosition])
 
   const onPaneClick = useCallback((e) => {
     console.log('pane click');
     const now = Date.now();
+    
+    popupRef.current.style.display = 'none';
+
     if (now - lastClickTime.current < 300) {
       console.log('pane double click');
       onPaneDoubleClick(e);
+      return;
     }
 
     lastClickTime.current = now;
+
   }, [onPaneDoubleClick])
 
   const onNodeDoubleClick = (e, node) => {
+    console.log(node);
     if (isEditing) setEditNode(node);
   }
 
@@ -94,9 +135,26 @@ function FlowEditor() {
       onPaneClick={onPaneClick}
       onNodeDoubleClick={onNodeDoubleClick}
       >
+
       <Controls/>
       </ReactFlow>
+                <Background/>
+
       {editNode && <Editor nodeId={editNode.id} setVisible={() => setEditNode(null)}/>}
+      {
+        isEditing &&
+        <>
+          <div ref={popupRef} className='popup' style={{display: 'none'}}>
+            <div className='item' onClick={() => createNode('textNode')}>Text Node</div>
+            <div className='item' onClick={() => createNode('imageNode')}>Image Node</div>
+            <div className='item' onClick={() => createNode('videoNode')}>Video Node</div>
+            <div className='item' onClick={() => createNode('audioNode')}>Audio Node</div>
+            <div className='item' onClick={() => createNode('iFrameNode')}>Web Node</div>
+          </div>
+          <button className='editButton' onClick={resetTemplate}>Reset</button>
+          <button className='editButton' onClick={sendData}>Save</button>
+        </>     
+      }
     </div>
   );
 }

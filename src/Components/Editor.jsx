@@ -29,7 +29,9 @@ export const Editor = ({nodeId, setVisible}) => {
         }
         const imageUrl = URL.createObjectURL(file);
 
-        updateNodeData(nodeId, {url: imageUrl});
+        console.log("file", file);
+
+        updateNodeData(nodeId, {url: imageUrl, file: file});
 
         e.target.value = '';
     }
@@ -37,8 +39,11 @@ export const Editor = ({nodeId, setVisible}) => {
     return (
         <div className='editor'>
             <h1>{nodeId}</h1>
+            <label>
+                Title
             <input type='text' value={node?.data.label ?? ""} placeholder='Label' onChange={(e) => updateNodeData(nodeId, {label: e.target.value})}/>
-            <br></br>
+            </label>
+            <br/>
             { node.data.url && 
                 <div>
                     <label>
@@ -55,7 +60,7 @@ export const Editor = ({nodeId, setVisible}) => {
                 </div>
             }
             <br></br>
-            { node.data.text && <input type='text-area' value={node?.data.text ?? ""} placeholder='Text' onChange={(e) => updateNodeData(nodeId, {text: e.target.value})}/>}
+            { node.data.text && <input className='text-area' type='text-area' value={node?.data.text ?? ""} placeholder='Text' onChange={(e) => updateNodeData(nodeId, {text: e.target.value})}/>}
 
             <br></br>
             <br></br>
