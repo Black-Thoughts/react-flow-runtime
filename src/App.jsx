@@ -10,6 +10,11 @@ import { IFrameNode } from './Components/Nodes/IFrameNode';
 import '@xyflow/react/dist/style.css';
 import './App.css';
 
+window.addEventListener('message', (message) => {
+  console.log(message.data);
+  alert(message.data);
+})
+
 const nodeTypes = { 
   videoNode: VideoNode,
   audioNode: AudioNode,
