@@ -28,14 +28,19 @@ function FlowEditor() {
   const [isEditing] = useState(true);
   const [editNode, setEditNode] = useState(false);
   const lastClickTime = useRef(0);
+  const [loaded, setLoaded] = useState(false);
   const {screenToFlowPosition} = useReactFlow();
 
 
   window.addEventListener('message', (message) => {
+    if (loaded) return;
+    if (!message.data.nodes) return; 
+
     console.log(message.data);
     // alert(message.data);
     setNodes(message.data.nodes);
     setEdges(message.data.edges);
+    setLoaded(true);
   })
 
   const onConnect = useCallback(
