@@ -59,8 +59,8 @@ export function IFrameNode({ id, data }) {
         <NodeResizer
             isVisible={isExpanded}
             minWidth={200}
-            maxWidth={200}
-            minHeight={1200}
+            maxWidth={1200}
+            minHeight={200}
             maxHeight={900}
             onResizeStart={() => setIsResizing(true)}
             onResizeEnd={() => setIsResizing(false)}
