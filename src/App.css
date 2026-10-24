@@ -9,7 +9,7 @@ button {
 
 #container {
   display: flex;
-  background-color: rgb(200, 200, 205);
+  /* background-color: rgb(200, 200, 205); */
   width: 100vw;
   height: 100vh;
   overflow: hidden;
