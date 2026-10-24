@@ -31,8 +31,8 @@ export function IFrameNode({ id, data }) {
         if (!node) return;
 
         const size = data.previousSize ?? {
-            width: '20vw',
-            height: '30vh',
+            width: '75vw',
+            height: '70vh',
         };
 
 
@@ -56,13 +56,15 @@ export function IFrameNode({ id, data }) {
 
   return (
     <div className={`${isExpanded ? 'expanded' : 'collapsed'}`}>
-        <NodeResizer
+        {/* <NodeResizer
             isVisible={isExpanded}
             minWidth={200}
-            minHeight={100}
+            maxWidth={200}
+            minHeight={1200}
+            maxHeight={900}
             onResizeStart={() => setIsResizing(true)}
             onResizeEnd={() => setIsResizing(false)}
-        />
+        /> */}
         <Handle type="target" position={Position.Top} />
         <div className='nodeHeader' onClick={() => setIsExpanded(!isExpanded)}>
             {data.label || 'IFrame Node'}
